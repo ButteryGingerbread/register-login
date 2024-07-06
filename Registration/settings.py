@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'register',
+    'displaymenu',
 ]
 
 MIDDLEWARE = [
@@ -56,7 +57,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            BASE_DIR / "Registration/templates"
+            BASE_DIR / "templates"
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -80,7 +81,15 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    },
+    'second_db': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'lpb2024',
+        'USER': 'root',
+        'PASSWORD': '',
+        'HOST': 'localhost',
+        'PORT': '3306',
+    },
 }
 
 
@@ -124,3 +133,11 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'register.backends.EmailBackend',
+]
+
+DATABASE_ROUTERS = ['displaymenu.db_routers.SecondDbRouter']
+

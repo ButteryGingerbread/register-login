@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
-from .forms import CreateUserForm
+from .forms import CreateUserForm, EmailAuthenticationForm
 from django.contrib.auth.forms import AuthenticationForm
 
 def register(request):
@@ -27,16 +27,16 @@ def register(request):
 
 def login_user(request):
     if request.method == 'POST':
-        form = AuthenticationForm(request, request.POST)
+        form = EmailAuthenticationForm(request, request.POST)
         if form.is_valid():
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)  # Correct usage of login function
-                return redirect('home')  # Redirect to the success page after login
+                return redirect('home')  # Redirect to the home page after login
     else:
-        form = AuthenticationForm()
+        form = EmailAuthenticationForm()
     return render(request, 'login.html', {'form': form})
 
 def home(request):

@@ -2,6 +2,8 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
+from django.contrib.auth.forms import AuthenticationForm
+
 
 class CreateUserForm(UserCreationForm):
     email = forms.EmailField(required=True)
@@ -24,3 +26,6 @@ class CreateUserForm(UserCreationForm):
         if User.objects.filter(email=email).exists():
             raise ValidationError("Email is already in use.")
         return email
+    
+class EmailAuthenticationForm(AuthenticationForm):
+    username = forms.EmailField(label='Email', widget=forms.EmailInput(attrs={'autofocus': True}))
